@@ -28,6 +28,41 @@ function Promotions() { // Validator for Promotions
 	]
 }
 
+function getPlayers() { // Validator for GetPlayers
+	return [
+		check('Group')
+			.custom((value, { req, loc, path }) => {
+				if (typeof req.body.Group === "number") { return value; } else { throw new Error(`Parameter 'Group' must be an integer, not type '${typeof (value)}'`) }
+			}),
+	]
+}
+
+function getRole() { // Validator for GetRole
+	return [
+		check('Group')
+			.custom((value, { req, loc, path }) => {
+				if (typeof req.body.Group === "number") { return value; } else { throw new Error(`Parameter 'Group' must be an integer, not type '${typeof (value)}'`) }
+			}),
+		check('Rank')
+			.custom((value, { req, loc, path }) => {
+				if (typeof req.body.Rank === "number") { return value; } else { throw new Error(`Parameter 'Rank' must be an integer, not type '${typeof (value)}'`) }
+			})
+	]
+}
+
+function exile() { // Validator for exile
+	return [
+		check('Group')
+			.custom((value, { req, loc, path }) => {
+				if (typeof req.body.Group === "number") { return value; } else { throw new Error(`Parameter 'Group' must be an integer, not type '${typeof (value)}'`) }
+			}),
+		check('Target')
+			.custom((value, { req, loc, path }) => {
+				if (typeof req.body.Target === "number") { return value; } else { throw new Error(`Parameter 'Rank' must be an integer, not type '${typeof (value)}'`) }
+			})
+	]
+}
+
 function SetRank() { // Validator for SetRank
 	return [
 		check('Group')
@@ -79,6 +114,9 @@ function GroupShouts() { // Validator for GroupShout
 
 module.exports = {
 	Promotions,
+  getPlayers: getPlayers,
+  getRole,
+  exile,
 	SetRank,
 	JoinRequests,
 	GroupShouts,

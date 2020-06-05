@@ -38,7 +38,7 @@ app.use(Utility.Authenticate); // Authenticate all requests for the correct auth
 // Main
 
 // Validate all Promotions/Demotions
-const { Promotions, SetRank, JoinRequests, GroupShouts, Validate } = require('./utility/validator.js')
+const { Promotions, getPlayers, getRole, exile, SetRank, JoinRequests, GroupShouts, Validate } = require('./utility/validator.js')
 
 app.get("/", (req, res) => res.status(200).send("Server is online!")); // Basic homepage
 
@@ -52,6 +52,46 @@ app.post("/SetRank", SetRank(), Validate, function (req, res, next) {
     let Rank = req.body.Rank
 
     Utility.SetRank(res, Group, Target, Rank) // Use the Utility.SetRank function to set the rank
+        .catch(err => {
+            console.log(err);
+            res.status(500).send({ error: err.message })
+        });
+});
+
+app.post("/getRole", getRole(), Validate, function (req, res, next) {
+    // At this point the request has been authenticated and body contents are validated.
+
+    let Group = req.body.Group
+    let Rank = req.body.Rank
+
+    Utility.getRole(res, Group, Rank) // Use the Utility.getRole function to get the role
+        .catch(err => {
+            console.log(err);
+            res.status(500).send({ error: err.message })
+        });
+});
+
+app.post("/getPlayers", getPlayers(), Validate, function (req, res, next) {
+    // At this point the request has been authenticated and body contents are validated.
+
+    let Group = req.body.Group
+    let RoleArray = req.body.RoleArray
+    let current = req.body.Current
+
+    Utility.getPlayers(res, Group, RoleArray, current) // Use the Utility.getPlayers function to get the players in the role
+        .catch(err => {
+            console.log(err);
+            res.status(500).send({ error: err.message })
+        });
+});
+
+app.post("/exile", exile(), Validate, function (req, res, next) {
+    // At this point the request has been authenticated and body contents are validated.
+
+    let Group = req.body.Group
+    let Target = req.body.Target
+
+    Utility.exile(res, Group, Target) // Use the Utility.getRole function to get the role
         .catch(err => {
             console.log(err);
             res.status(500).send({ error: err.message })
